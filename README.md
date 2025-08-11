@@ -1,7 +1,7 @@
 
 # ProVet
 
-ProVet is a web application for managing a veterinary clinic, built with Laravel and powered by Filament for the admin panel and Spatie Roles & Permissions for user role management.
+ProVet is a web application for managing a veterinary clinic, built with Laravel and powered by Filament for the panel and Spatie Roles & Permissions for user role management.
 
 # ✨ Features
 
