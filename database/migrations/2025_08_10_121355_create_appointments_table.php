@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('date_of_appointment');
             $table->string('status')->default('pending');
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('owner_id')->nullable()->constrained('owners')->cascadeOnDelete();
             $table->timestamps();
         });
     }

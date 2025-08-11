@@ -11,4 +11,9 @@ class Owner extends Model
     {
         return $this->hasMany(Patient::class);
     }
+
+    public function appointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class);
+    }
 }
