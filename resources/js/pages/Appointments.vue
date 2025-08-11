@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/vue3';
-import PlaceholderPattern from '../components/PlaceholderPattern.vue';
+import { Head, useForm } from '@inertiajs/vue3';
 
 import { Button } from '@/components/ui/button';
 import { Textarea } from "@/components/ui/textarea"
+import InputError from '@/components/InputError.vue';
 
 import {
     Card,
@@ -33,10 +33,22 @@ import {
 } from "@internationalized/date"
 import { CalendarIcon } from "lucide-vue-next"
 
-import { ref } from "vue"
+import { ref, watch } from "vue"
 import { cn } from "@/lib/utils"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+
+const form = useForm({
+   description: '',
+   name_of_patient: '',
+   date_of_appointment: '',
+});
+
+const submit = () => {
+    form.post(route('appointments'), {
+        onFinish: () => form.reset('description', 'name_of_patient', 'date_of_appointment')
+    });
+};
 
 const df = new DateFormatter("en-US", {
     dateStyle: "long",
@@ -44,6 +56,9 @@ const df = new DateFormatter("en-US", {
 
 const value = ref<DateValue>()
 
+watch(value, (newVal) => {
+   form.date_of_appointment = newVal ? newVal.toString() : '';
+});
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -105,11 +120,13 @@ const breadcrumbs: BreadcrumbItem[] = [
                                 <CardDescription>Create your appointment in a few seconds.</CardDescription>
                             </CardHeader>
                             <CardContent>
-                                <form>
+                                <form @submit.prevent="submit">
                                     <div class="grid items-center w-full gap-4">
                                         <div class="flex flex-col space-y-1.5">
-                                            <Label for="name">Describe your problem</Label>
-                                            <Textarea id="name" placeholder="Type your problem." />
+                                            <Label for="description" required>Describe your problem</Label>
+                                            <Input id="description" placeholder="Type your problem." v-model="form.description" required />
+<!--                                            <Textarea id="description" placeholder="Type your problem." v-model="form.description" required />-->
+                                            <InputError :message="form.errors.description" />
                                         </div>
                                         <div>
                                             <Label for="date_of_appointment" class="mb-1.5">Choose a free day</Label>
@@ -133,7 +150,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                                         </div>
                                         <div class="flex flex-col space-y-1.5">
                                             <Label for="name_of_pacient">Patient</Label>
-                                            <Select>
+                                            <Select v-model="form.name_of_patient" required>
                                                 <SelectTrigger id="name_of_pacient">
                                                     <SelectValue placeholder="Select" />
                                                 </SelectTrigger>
@@ -158,13 +175,15 @@ const breadcrumbs: BreadcrumbItem[] = [
                                                     </SelectItem>
                                                 </SelectContent>
                                             </Select>
+                                            <InputError :message="form.errors.name_of_patient" />
+                                            <Button type="submit" class="mt-3">Create</Button>
                                         </div>
                                     </div>
                                 </form>
                             </CardContent>
-                            <CardFooter class="flex justify-end px-6 pb-6">
-                                <Button type="submit">Create</Button>
-                            </CardFooter>
+<!--                            <CardFooter class="flex justify-end px-6 pb-6">-->
+<!--                                <Button type="submit">Create</Button>-->
+<!--                            </CardFooter>-->
                         </Card>
                     </div>
                 </div>

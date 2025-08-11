@@ -12,11 +12,11 @@ class Appointment extends Model
         'name_of_patient',
         'date_of_patient',
         'status',
-        'owner_id',
+        'user_id',
     ];
 
-    public function owner(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(Owner::class);
+        return $this->belongsTo(User::class);
     }
 }
