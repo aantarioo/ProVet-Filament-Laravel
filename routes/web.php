@@ -24,6 +24,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/appointments', [NewAppointmentController::class, 'store']);
 
     Route::get('/myappointments', [MyAppointmentsController::class, 'index'])->name('myappointments');
+    Route::delete('/myappointments/{id}', [MyAppointmentsController::class, 'destroy'])->name('myappointments.destroy');
 });
 
 

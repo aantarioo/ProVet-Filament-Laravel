@@ -38,24 +38,18 @@ import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 
 
+const form = useForm();
 
-// const form = useForm({
-//    description: '',
-//    name_of_patient: '',
-//    date_of_appointment: '',
-// });
-//
-// const submit = () => {
-//     form.post(route('appointments'), {
-//         onFinish: () => form.reset('description', 'name_of_patient', 'date_of_appointment')
-//     });
-// };
-
+const deleteAppointment = (id: number) => {
+    form.delete(route('myappointments.destroy', id), {
+        preserveScroll: true,
+    });
+};
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Create Appointment',
-        href: '/appointments',
+        title: 'My Appointments',
+        href: '/myappointments',
     },
 ];
 
@@ -63,7 +57,7 @@ defineProps({ appointments: Array })
 </script>
 
 <template>
-    <Head title="Create Appointment" />
+    <Head title="My Appointments" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
@@ -111,9 +105,9 @@ defineProps({ appointments: Array })
                             <CardHeader>
                                 <div class="flex justify-between">
                                     <CardTitle>Appointment with ID: {{appointment.id}}</CardTitle>
-                                    <CardDescription v-if="appointment.status === 'pending'">Pending</CardDescription>
-                                    <CardDescription v-else-if="appointment.status === 'confirmed'" class="text-sky-400">Confirmed</CardDescription>
-                                    <CardDescription v-else-if="appointment.status === 'completed'" class="text-green-400">Completed</CardDescription>
+                                    <CardDescription v-if="appointment.status === 'pending'" class="text-xl">Pending</CardDescription>
+                                    <CardDescription v-else-if="appointment.status === 'confirmed'" class="text-sky-400 text-xl">Confirmed</CardDescription>
+                                    <CardDescription v-else-if="appointment.status === 'completed'" class="text-green-400 text-xl">Completed</CardDescription>
                                 </div>
                             </CardHeader>
                             <CardContent>
@@ -154,14 +148,17 @@ defineProps({ appointments: Array })
                                     <p class="text-sm text-muted-foreground ml-0.5">{{appointment.updated_at_formatted}}</p>
                                 </div>
                                 </div>
-                                <div>
+                                <div class="flex">
                                 <Button
                                     variant="outline"
                                     class="mr-2"
                                 >Edit</Button>
+                                <form @submit.prevent="() => deleteAppointment(appointment.id)">
                                 <Button
                                     variant="destructive"
+                                    type="submit"
                                 >Cancel Appointment</Button>
+                                </form>
                                 </div>
                             </CardFooter>
                         </Card>

@@ -22,4 +22,9 @@ class MyAppointmentsController extends Controller
             'appointments' => $appointments,
         ]);
     }
+
+    public function destroy($id)
+    {
+        Appointment::findOrFail($id)->delete();
+    }
 }
