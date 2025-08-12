@@ -73,6 +73,12 @@ class AppointmentResource extends Resource
                     ,
                     Tables\Columns\Layout\Panel::make([
                         Tables\Columns\Layout\Stack::make([
+                            Tables\Columns\TextColumn::make('user.name')->icon('heroicon-m-user')->searchable(),
+                            Tables\Columns\TextColumn::make('user.email')->icon('heroicon-m-envelope'),
+                        ])->alignment(Alignment::Center),
+                    ]),
+                    Tables\Columns\Layout\Panel::make([
+                        Tables\Columns\Layout\Stack::make([
                             Tables\Columns\TextColumn::make('owner.name')->icon('heroicon-m-identification')->searchable(),
                             Tables\Columns\TextColumn::make('owner.email')->icon('heroicon-m-envelope'),
                             Tables\Columns\TextColumn::make('owner.phone')->icon('heroicon-m-phone'),

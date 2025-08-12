@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/vue3';
-import PlaceholderPattern from '../components/PlaceholderPattern.vue';
+import { Head, Link } from '@inertiajs/vue3';
 
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -39,6 +38,8 @@ const accordionItems = [
             'From minor procedures to complex surgeries, we ensure safety, minimal stress, and a smooth recovery for your pet under our attentive care.',
     },
 ];
+
+defineProps({ owners: Array })
 </script>
 
 <template>
@@ -57,7 +58,9 @@ const accordionItems = [
                             ProVet, we don’t just treat pets – we care about their quality of life.
                         </p>
                         <div class="mt-9 flex justify-between">
+                            <Link :href="route('appointments')">
                             <Button variant="outline">Make an appointment</Button>
+                            </Link>
                             <Button variant="link">Contact us</Button>
                         </div>
                     </div>
@@ -85,31 +88,21 @@ const accordionItems = [
                         </p>
                     </div>
                     <div class="grid auto-rows-min gap-4 md:grid-cols-2 mt-6">
-                        <div class="relative aspect-video overflow-hidden rounded-xl  border-sidebar-border/70 dark:border-sidebar-border">
+                        <div class="relative aspect-video overflow-hidden rounded-xl  border-sidebar-border/70 dark:border-sidebar-border" v-for="owner in owners" :key="owner.id">
                             <div class="text-center mt-3">
                                 <Avatar class="flex m-auto h-[50px] w-[50px]">
                                     <AvatarImage src="https://github.com/unovue.png" alt="@unovue" />
                                     <AvatarFallback>CN</AvatarFallback>
                                 </Avatar>
-                                <h1 class="mt-3 text-xl font-medium">Name Prenume</h1>
+                                <h1 class="mt-3 text-xl font-medium">{{ owner.name }}</h1>
                                 <p class="text-sm text-muted-foreground">
-                                    Description.
+                                    {{ owner.email }}.
+                                </p>
+                                <p class="text-sm text-muted-foreground">
+                                    {{ owner.phone }}.
                                 </p>
                             </div>
                         </div>
-                        <div class="relative aspect-video overflow-hidden rounded-xl border-sidebar-border/70 dark:border-sidebar-border ">
-                            <div class="text-center mt-3">
-                                <Avatar class="flex m-auto h-[50px] w-[50px]">
-                                    <AvatarImage src="https://github.com/unovue.png" alt="@unovue" />
-                                    <AvatarFallback>CN</AvatarFallback>
-                                </Avatar>
-                                <h1 class="mt-3 text-xl font-medium">Name Prenume</h1>
-                                <p class="text-sm text-muted-foreground">
-                                    Description.
-                                </p>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>

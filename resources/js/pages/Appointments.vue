@@ -3,62 +3,80 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 
+import { Toaster } from '@/components/ui/sonner';
+import { toast } from 'vue-sonner';
+import 'vue-sonner/style.css';
+
 import { Button } from '@/components/ui/button';
-import { Textarea } from "@/components/ui/textarea"
+import { Textarea } from '@/components/ui/textarea';
 import InputError from '@/components/InputError.vue';
 
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-import type { DateValue } from "@internationalized/date"
-import {
-    DateFormatter,
+import type { DateValue } from '@internationalized/date';
+import { DateFormatter, getLocalTimeZone } from '@internationalized/date';
+import { CalendarIcon } from 'lucide-vue-next';
 
-    getLocalTimeZone,
-} from "@internationalized/date"
-import { CalendarIcon } from "lucide-vue-next"
+import { ref, watch } from 'vue';
+import { cn } from '@/lib/utils';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
-import { ref, watch } from "vue"
-import { cn } from "@/lib/utils"
-import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { PawPrint, Weight, Heart, Cross, Check } from "lucide-vue-next"
+
+import { Stepper, StepperDescription, StepperIndicator, StepperItem, StepperSeparator, StepperTitle, StepperTrigger } from "@/components/ui/stepper"
 
 const form = useForm({
-   description: '',
-   name_of_patient: '',
-   date_of_appointment: '',
+    description: '',
+    name_of_patient: '',
+    date_of_appointment: '',
 });
 
 const submit = () => {
     form.post(route('appointments'), {
-        onFinish: () => form.reset('description', 'name_of_patient', 'date_of_appointment')
+        onFinish: () => form.reset('description', 'name_of_patient', 'date_of_appointment'),
     });
 };
 
-const df = new DateFormatter("en-US", {
-    dateStyle: "long",
-})
+const df = new DateFormatter('en-US', {
+    dateStyle: 'long',
+});
 
-const value = ref<DateValue>()
+const value = ref<DateValue>();
 
 watch(value, (newVal) => {
-   form.date_of_appointment = newVal ? newVal.toString() : '';
+    form.date_of_appointment = newVal ? newVal.toString() : '';
 });
+
+const steps = [{
+    step: 1,
+    title: "Pet Details",
+    description: "Name & breed",
+    icon: PawPrint,
+}, {
+    step: 2,
+    title: "Age & Weight",
+    description: "Set your preferred shipping method",
+    icon: Weight,
+}, {
+    step: 3,
+    title: "Health Condition",
+    description: "Describe current symptoms or issues",
+    icon: Heart,
+}, {
+    step: 4,
+    title: "Medical History",
+    description: "Add past visits or known conditions",
+    icon: Cross,
+}, {
+    step: 5,
+    title: "Create Appointment",
+    description: "Create an appointment and wait",
+    icon: Check,
+}, ]
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -66,67 +84,63 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/appointments',
     },
 ];
-
 </script>
 
 <template>
+    <Toaster />
     <Head title="Create Appointment" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-<!--            <div class="grid auto-rows-min gap-4 md:grid-cols-2">-->
-<!--                <div class="relative aspect-video overflow-hidden rounded-xl border-sidebar-border/70 dark:border-sidebar-border">-->
-<!--                    <div class="p-3">-->
-<!--                        <h1 class="mb-6 text-3xl font-medium">ProVet</h1>-->
-<!--                        <p class="text-xl text-muted-foreground">-->
-<!--                            ProVet is a modern veterinary clinic where compassionate care meets the latest diagnostic and treatment technologies. We-->
-<!--                            understand that every pet is unique, so we tailor our approach to each patient. Our team of experienced veterinarians is-->
-<!--                            ready to help in any situation – from preventive check-ups and vaccinations to complex surgeries and rehabilitation. At-->
-<!--                            ProVet, we don’t just treat pets – we care about their quality of life.-->
-<!--                        </p>-->
-<!--                        <div class="mt-9 flex justify-between">-->
-<!--                            <Button variant="outline">Make an appointment</Button>-->
-<!--                            <Button variant="link">Contact us</Button>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="relative aspect-video overflow-hidden rounded-xl border-sidebar-border/70 dark:border-sidebar-border bg-neutral-900">-->
-<!--                    <div class="p-3">-->
-<!--                        <Accordion type="single" class="w-full" collapsible :default-value="defaultValue">-->
-<!--                            <AccordionItem v-for="item in accordionItems" :key="item.value" :value="item.value">-->
-<!--                                <AccordionTrigger>{{ item.title }}</AccordionTrigger>-->
-<!--                                <AccordionContent>-->
-<!--                                    {{ item.content }}-->
-<!--                                </AccordionContent>-->
-<!--                            </AccordionItem>-->
-<!--                        </Accordion>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
+            <!--            <div class="grid auto-rows-min gap-4 md:grid-cols-2">-->
+            <!--                <div class="relative aspect-video overflow-hidden rounded-xl border-sidebar-border/70 dark:border-sidebar-border">-->
+            <!--                    <div class="p-3">-->
+            <!--                        <h1 class="mb-6 text-3xl font-medium">ProVet</h1>-->
+            <!--                        <p class="text-xl text-muted-foreground">-->
+            <!--                            ProVet is a modern veterinary clinic where compassionate care meets the latest diagnostic and treatment technologies. We-->
+            <!--                            understand that every pet is unique, so we tailor our approach to each patient. Our team of experienced veterinarians is-->
+            <!--                            ready to help in any situation – from preventive check-ups and vaccinations to complex surgeries and rehabilitation. At-->
+            <!--                            ProVet, we don’t just treat pets – we care about their quality of life.-->
+            <!--                        </p>-->
+            <!--                        <div class="mt-9 flex justify-between">-->
+            <!--                            <Button variant="outline">Make an appointment</Button>-->
+            <!--                            <Button variant="link">Contact us</Button>-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--                <div class="relative aspect-video overflow-hidden rounded-xl border-sidebar-border/70 dark:border-sidebar-border bg-neutral-900">-->
+            <!--                    <div class="p-3">-->
+            <!--                        <Accordion type="single" class="w-full" collapsible :default-value="defaultValue">-->
+            <!--                            <AccordionItem v-for="item in accordionItems" :key="item.value" :value="item.value">-->
+            <!--                                <AccordionTrigger>{{ item.title }}</AccordionTrigger>-->
+            <!--                                <AccordionContent>-->
+            <!--                                    {{ item.content }}-->
+            <!--                                </AccordionContent>-->
+            <!--                            </AccordionItem>-->
+            <!--                        </Accordion>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
 
-            <div class="relative min-h-[100vh] flex-1 rounded-xl  border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
+            <div class="relative min-h-[100vh] flex-1 rounded-xl border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
                 <div>
-                    <div class="text-center">
-                    <h1 class="mb-6 text-3xl font-medium">Create Appointment</h1>
-                        <p class="text-xl text-muted-foreground">
-                            Here you can create an appointment.
-                        </p>
+                    <div class="text-center mt-6">
+                        <h1 class="mb-2 text-3xl font-medium">Create Appointment</h1>
+                        <p class="text-xl text-muted-foreground">Here you can create an appointment.</p>
                     </div>
 
                     <div class="mt-6">
                         <Card class="w-full">
-                            <CardHeader>
+                            <form @submit.prevent="submit">
+                            <CardHeader class="mb-2">
                                 <CardTitle>Create appointment</CardTitle>
                                 <CardDescription>Create your appointment in a few seconds.</CardDescription>
                             </CardHeader>
                             <CardContent>
-                                <form @submit.prevent="submit">
-                                    <div class="grid items-center w-full gap-4">
+                                    <div class="grid w-full items-center gap-4">
                                         <div class="flex flex-col space-y-1.5">
-                                            <Label for="description" required>Describe your problem</Label>
-                                            <Input id="description" placeholder="Type your problem." v-model="form.description" required />
-<!--                                            <Textarea id="description" placeholder="Type your problem." v-model="form.description" required />-->
-                                            <InputError :message="form.errors.description" />
+                                            <Label for="description">Description</Label>
+                                            <Textarea id="description" placeholder="Symptoms, weight, patient name, breed, age, please indicate previous visits or illnesses." v-model="form.description" required />
                                         </div>
                                         <div>
                                             <Label for="date_of_appointment" class="mb-1.5">Choose a free day</Label>
@@ -134,16 +148,15 @@ const breadcrumbs: BreadcrumbItem[] = [
                                                 <PopoverTrigger as-child>
                                                     <Button
                                                         variant="outline"
-                                                        :class="cn(
-                                                        'w-[280px] justify-start text-left font-normal',
-                                                        !value && 'text-muted-foreground',
-                                                        )"
+                                                        :class="
+                                                            cn('w-[280px] justify-start text-left font-normal', !value && 'text-muted-foreground')
+                                                        "
                                                     >
                                                         <CalendarIcon class="mr-2 h-4 w-4" />
-                                                        {{ value ? df.format(value.toDate(getLocalTimeZone())) : "Pick a date" }}
+                                                        {{ value ? df.format(value.toDate(getLocalTimeZone())) : 'Pick a date' }}
                                                     </Button>
                                                 </PopoverTrigger>
-                                                <PopoverContent class="w-auto p-0">
+                                                <PopoverContent class="">
                                                     <Calendar v-model="value" initial-focus />
                                                 </PopoverContent>
                                             </Popover>
@@ -155,36 +168,62 @@ const breadcrumbs: BreadcrumbItem[] = [
                                                     <SelectValue placeholder="Select" />
                                                 </SelectTrigger>
                                                 <SelectContent position="popper">
-                                                    <SelectItem value="cat">
-                                                        cat
-                                                    </SelectItem>
-                                                    <SelectItem value="dog">
-                                                        dog
-                                                    </SelectItem>
-                                                    <SelectItem value="rabbit">
-                                                        rabbit
-                                                    </SelectItem>
-                                                    <SelectItem value="bird">
-                                                        bird
-                                                    </SelectItem>
-                                                    <SelectItem value="rodent">
-                                                        rodent
-                                                    </SelectItem>
-                                                    <SelectItem value="reptile">
-                                                        reptile
-                                                    </SelectItem>
+                                                    <SelectItem value="cat"> cat </SelectItem>
+                                                    <SelectItem value="dog"> dog </SelectItem>
+                                                    <SelectItem value="rabbit"> rabbit </SelectItem>
+                                                    <SelectItem value="bird"> bird </SelectItem>
+                                                    <SelectItem value="rodent"> rodent </SelectItem>
+                                                    <SelectItem value="reptile"> reptile </SelectItem>
                                                 </SelectContent>
                                             </Select>
                                             <InputError :message="form.errors.name_of_patient" />
-                                            <Button type="submit" class="mt-3">Create</Button>
                                         </div>
                                     </div>
-                                </form>
                             </CardContent>
-<!--                            <CardFooter class="flex justify-end px-6 pb-6">-->
-<!--                                <Button type="submit">Create</Button>-->
-<!--                            </CardFooter>-->
+                            <CardFooter class="flex justify-end ">
+                                <Button
+                                    type="submit"
+                                    class="mt-3"
+                                    @click="
+                                                    () => {
+                                                        toast('Appointment has been created', {
+                                                            description: 'Expect new instructions',
+                                                        });
+                                                    }
+                                                "
+                                >Create</Button>
+                            </CardFooter>
+                            </form>
                         </Card>
+                    </div>
+
+                    <div class="mt-6 flex justify-center">
+                        <Stepper class="gap-10">
+                            <StepperItem
+                                v-for="item in steps"
+                                :key="item.step"
+                                class="basis-1/5"
+                                :step="item.step"
+                            >
+                                <StepperTrigger>
+                                    <StepperIndicator>
+                                        <component :is="item.icon" class="w-4 h-4" />
+                                    </StepperIndicator>
+                                    <div class="flex flex-col">
+                                        <StepperTitle>
+                                            {{ item.title }}
+                                        </StepperTitle>
+                                        <StepperDescription>
+                                            {{ item.description }}
+                                        </StepperDescription>
+                                    </div>
+                                </StepperTrigger>
+                                <StepperSeparator
+                                    v-if="item.step !== steps[steps.length - 1].step"
+                                    class="w-full h-px"
+                                />
+                            </StepperItem>
+                        </Stepper>
                     </div>
                 </div>
             </div>

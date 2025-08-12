@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 use App\Http\Controllers\Appointments\NewAppointmentController;
+use App\Http\Controllers\Appointments\MyAppointmentsController;
+
+use App\Models\Owner;
 
 //Route::get('/', function () {
 //    return Inertia::render('Welcome');
@@ -11,15 +14,16 @@ use App\Http\Controllers\Appointments\NewAppointmentController;
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', function () {
-        return Inertia::render('Dashboard');
+        $owners = Owner::all();
+        return Inertia::render('Dashboard', [
+            'owners' => $owners
+        ]);
     })->name('home');
 
     Route::get('/appointments', [NewAppointmentController::class, 'index'])->name('appointments');
     Route::post('/appointments', [NewAppointmentController::class, 'store']);
 
-    Route::get('/myappointments', function () {
-        return Inertia::render('MyAppointments');
-    })->name('myappointments');
+    Route::get('/myappointments', [MyAppointmentsController::class, 'index'])->name('myappointments');
 });
 
 

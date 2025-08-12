@@ -16,7 +16,7 @@ class NewAppointmentController extends Controller
         return Inertia::render('Appointments');
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'description' => 'required|string|max:255',
@@ -30,5 +30,7 @@ class NewAppointmentController extends Controller
             'date_of_appointment' => $request->date_of_appointment,
             'user_id' => Auth::id(),
         ]);
+
+        return to_route('myappointments');
     }
 }
