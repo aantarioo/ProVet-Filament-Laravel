@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, useForm, Link } from '@inertiajs/vue3';
 
 import { Button } from '@/components/ui/button';
-import { Textarea } from "@/components/ui/textarea"
-import InputError from '@/components/InputError.vue';
+
 import {
     Card,
     CardContent,
@@ -14,37 +13,79 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card'
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from '@/components/ui/dialog';
 
-import type { DateValue } from "@internationalized/date"
-import {
-    DateFormatter,
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 
-    getLocalTimeZone,
-} from "@internationalized/date"
-import { CalendarIcon } from "lucide-vue-next"
+import { Check, Clock, Speech } from "lucide-vue-next"
 
-import { ref, watch } from "vue"
-import { cn } from "@/lib/utils"
-import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+defineProps({ appointments: Array })
 
+const form = useForm({
+    description: '',
+    name_of_patient: '',
+});
 
-const form = useForm();
-
+const editAppointment = (id: number) => {
+    form.put(route('myappointments.update', id), {
+        preserveScroll: true,
+        onSuccess: () => form.reset(),
+        onFinish: () => form.reset(),
+    });
+};
 const deleteAppointment = (id: number) => {
     form.delete(route('myappointments.destroy', id), {
         preserveScroll: true,
     });
 };
+
+const accordionItems = [
+    {
+        value: 'item-1',
+        title: 'How can I change the date or time of my appointment?',
+        content:
+            'Click the "Edit" button next to your appointment and confirm the changes.',
+    },
+    {
+        value: 'item-2',
+        title: 'What if I’m running late?',
+        content:
+            'Let us know by phone or messenger — we’ll do our best to move you to the nearest available time.',
+    },
+    {
+        value: 'item-3',
+        title: 'What documents or information do I need for the appointment?',
+        content:
+            'Bring the owner’s ID and, if necessary, the pet’s medical record.',
+    },
+    {
+        value: 'item-4',
+        title: 'How should I prepare my animal for the check-up?',
+        content:
+            'Place your animal in a suitable carrier or container, ensuring proper ventilation and a comfortable temperature.',
+    },
+    {
+        value: 'item-5',
+        title: 'Can I cancel my appointment?',
+        content:
+            'Yes, click "Cancel Appointment" and confirm the action.',
+    },
+];
+
+const defaultValue = 'item-1';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -53,7 +94,6 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-defineProps({ appointments: Array })
 </script>
 
 <template>
@@ -105,19 +145,37 @@ defineProps({ appointments: Array })
                             <CardHeader>
                                 <div class="flex justify-between">
                                     <CardTitle>Appointment with ID: {{appointment.id}}</CardTitle>
-                                    <CardDescription v-if="appointment.status === 'pending'" class="text-xl">Pending</CardDescription>
-                                    <CardDescription v-else-if="appointment.status === 'confirmed'" class="text-sky-400 text-xl">Confirmed</CardDescription>
-                                    <CardDescription v-else-if="appointment.status === 'completed'" class="text-green-400 text-xl">Completed</CardDescription>
+                                    <CardDescription v-if="appointment.status === 'pending'" class="text-xl"><Clock /></CardDescription>
+                                    <CardDescription v-else-if="appointment.status === 'confirmed'" class="text-sky-400 text-xl"><Speech /></CardDescription>
+                                    <CardDescription v-else-if="appointment.status === 'completed'" class="text-green-400 text-xl"><Check /></CardDescription>
                                 </div>
                             </CardHeader>
                             <CardContent>
-                                <div>
+                                <div v-if="appointment.status === 'pending'">
                                 <p>
                                     Monitor the status of the appointment and wait for information to be provided to you.
                                 </p>
                                 <p class="text-muted-foreground">
                                     Appointments are checked within 24 hours.
                                 </p>
+                                <p class="text-sm text-muted-foreground">
+                                    The appointment can be edited only if its current status is pending.
+                                </p>
+                                </div>
+
+                                <div v-if="appointment.status === 'confirmed'">
+                                    <p class="text-sky-400 text-xl">
+                                        Your appointment is confirmed.
+                                    </p>
+                                    <p class="text-sky-400 text-sm">
+                                        We are ready to help you. Visit our clinic.
+                                    </p>
+                                </div>
+
+                                <div v-if="appointment.status === 'completed'">
+                                    <p class="text-green-400 text-xl mb-2">
+                                        Your appointment is completed.
+                                    </p>
                                 </div>
 
                                 <div class="mt-6">
@@ -149,19 +207,87 @@ defineProps({ appointments: Array })
                                 </div>
                                 </div>
                                 <div class="flex">
-                                <Button
-                                    variant="outline"
-                                    class="mr-2"
-                                >Edit</Button>
-                                <form @submit.prevent="() => deleteAppointment(appointment.id)">
-                                <Button
-                                    variant="destructive"
-                                    type="submit"
-                                >Cancel Appointment</Button>
-                                </form>
+                                    <Link :href="route('appointments')">
+                                        <Button  v-if="appointment.status === 'completed'" variant="default" class="mr-2">Make new appointment</Button>
+                                    </Link>
+                                    <Dialog>
+                                        <DialogTrigger as-child>
+                                            <Button v-if="appointment.status === 'pending'" variant="outline" class="mr-2">Edit</Button>
+                                        </DialogTrigger>
+                                        <DialogContent>
+                                            <form class="space-y-6" @submit.prevent="() => editAppointment(appointment.id)">
+                                                <DialogHeader class="space-y-3">
+                                                    <DialogTitle>Edit Appointment</DialogTitle>
+                                                    <DialogDescription>
+                                                        If you want to change something, do it here
+                                                        <div class="mt-4">
+                                                            <Label for="description" class="mb-1">Description</Label>
+                                                            <Textarea id="description" v-model="form.description" :model-value="appointment.description" />
+                                                        </div>
+                                                        <div class="mt-4">
+                                                            <Label for="name_of_pacient" class="mb-1">Patient</Label>
+                                                            <Select v-model="form.name_of_patient" required>
+                                                                <SelectTrigger id="name_of_pacient">
+                                                                    <SelectValue :placeholder="appointment.name_of_patient" />
+                                                                </SelectTrigger>
+                                                                <SelectContent position="popper">
+                                                                    <SelectItem value="cat"> cat </SelectItem>
+                                                                    <SelectItem value="dog"> dog </SelectItem>
+                                                                    <SelectItem value="rabbit"> rabbit </SelectItem>
+                                                                    <SelectItem value="bird"> bird </SelectItem>
+                                                                    <SelectItem value="rodent"> rodent </SelectItem>
+                                                                    <SelectItem value="reptile"> reptile </SelectItem>
+                                                                </SelectContent>
+                                                            </Select>
+                                                        </div>
+                                                    </DialogDescription>
+                                                </DialogHeader>
+
+                                                <DialogFooter class="gap-2">
+                                                    <DialogClose as-child>
+                                                        <Button variant="secondary" @click="closeModal"> Cancel </Button>
+                                                    </DialogClose>
+                                                        <Button type="submit" variant="default" :disabled="form.processing"> Confirm </Button>
+                                                </DialogFooter>
+                                            </form>
+                                        </DialogContent>
+                                    </Dialog>
+                                    <Dialog>
+                                        <DialogTrigger as-child>
+                                            <Button variant="destructive">Cancel Appointment</Button>
+                                        </DialogTrigger>
+                                        <DialogContent>
+                                            <form class="space-y-6" @submit.prevent="() => deleteAppointment(appointment.id)">
+                                                <DialogHeader class="space-y-3">
+                                                    <DialogTitle>Are you sure you want to delete your appointment?</DialogTitle>
+                                                    <DialogDescription>
+                                                        Deleting this appointment will permanently remove all associated details. This action cannot be undone. Please confirm your decision to proceed.
+                                                    </DialogDescription>
+                                                </DialogHeader>
+
+                                                <DialogFooter class="gap-2">
+                                                    <DialogClose as-child>
+                                                        <Button variant="secondary" @click="closeModal"> Cancel </Button>
+                                                    </DialogClose>
+
+                                                    <Button type="submit" variant="destructive" :disabled="form.processing"> Cancel Appointment </Button>
+                                                </DialogFooter>
+                                            </form>
+                                        </DialogContent>
+                                    </Dialog>
                                 </div>
                             </CardFooter>
                         </Card>
+                    </div>
+                    <div class="mt-6">
+                        <Accordion type="single" class="text-center ml-2" collapsible :default-value="defaultValue">
+                            <AccordionItem v-for="item in accordionItems" :key="item.value" :value="item.value">
+                                <AccordionTrigger>{{ item.title }}</AccordionTrigger>
+                                <AccordionContent>
+                                    {{ item.content }}
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
                     </div>
                 </div>
             </div>

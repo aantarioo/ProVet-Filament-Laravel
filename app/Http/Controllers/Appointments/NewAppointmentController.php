@@ -24,12 +24,21 @@ class NewAppointmentController extends Controller
             'date_of_appointment' => 'required|date|date_format:Y-m-d|after_or_equal:today',
         ]);
 
-        $appointment = Appointment::create([
+        $user = auth()->user();
+
+        if ($user->appointment()->exists()) {
+            return back()->withErrors([
+                'limit' => 'You have already created an appointment.',
+            ]);
+        }
+
+        Appointment::create([
             'description' => $request->description,
             'name_of_patient' => $request->name_of_patient,
             'date_of_appointment' => $request->date_of_appointment,
             'user_id' => Auth::id(),
         ]);
+
 
         return to_route('myappointments');
     }

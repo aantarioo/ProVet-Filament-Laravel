@@ -3,10 +3,6 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 
-import { Toaster } from '@/components/ui/sonner';
-import { toast } from 'vue-sonner';
-import 'vue-sonner/style.css';
-
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import InputError from '@/components/InputError.vue';
@@ -87,7 +83,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 </script>
 
 <template>
-    <Toaster />
     <Head title="Create Appointment" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
@@ -176,7 +171,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                                                     <SelectItem value="reptile"> reptile </SelectItem>
                                                 </SelectContent>
                                             </Select>
-                                            <InputError :message="form.errors.name_of_patient" />
+                                            <InputError v-if="form.errors.limit" :message="form.errors.limit" />
                                         </div>
                                     </div>
                             </CardContent>
@@ -184,13 +179,6 @@ const breadcrumbs: BreadcrumbItem[] = [
                                 <Button
                                     type="submit"
                                     class="mt-3"
-                                    @click="
-                                                    () => {
-                                                        toast('Appointment has been created', {
-                                                            description: 'Expect new instructions',
-                                                        });
-                                                    }
-                                                "
                                 >Create</Button>
                             </CardFooter>
                             </form>

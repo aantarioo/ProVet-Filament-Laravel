@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Appointments;
 
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 
@@ -21,6 +22,18 @@ class MyAppointmentsController extends Controller
         return Inertia::render('MyAppointments', [
             'appointments' => $appointments,
         ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'description' => 'required|string|max:255',
+            'name_of_patient' => 'required|string|lowercase|max:255',
+        ]);
+
+        $appointment = Appointment::findOrFail($id);
+        $appointment->update($request->all());
+
     }
 
     public function destroy($id)
