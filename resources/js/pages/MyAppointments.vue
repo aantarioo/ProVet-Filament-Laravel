@@ -214,7 +214,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                                 </div>
                                 <div class="flex">
                                     <Link :href="route('appointments')">
-                                        <Button  v-if="appointment.status === 'completed'" variant="default" class="mr-2">Make new appointment</Button>
+                                        <Button  v-if="appointment.status === 'completed'" variant="outline" class="mr-2">Make new appointment</Button>
                                     </Link>
                                     <Dialog>
                                         <DialogTrigger as-child>

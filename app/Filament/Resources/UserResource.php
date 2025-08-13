@@ -52,7 +52,7 @@ class UserResource extends Resource
                         }
                         else
                         {
-                            return asset('images/ProVet.png');
+                            return asset('images/ProVetUpdated.png');
                         }
                     }),
                 Tables\Columns\TagsColumn::make('roles.name')->label('Roles'),
