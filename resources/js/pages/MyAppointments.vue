@@ -141,6 +141,12 @@ const breadcrumbs: BreadcrumbItem[] = [
                     </div>
 
                     <div class="mt-6">
+                        <div v-if="appointments?.length === 0" class="text-center mb-20">
+                            <h1 class="mb-2">To view your own appointments. You need to create it</h1>
+                            <Link :href="route('appointments')">
+                                <Button variant="default">Make new appointment</Button>
+                            </Link>
+                        </div>
                         <Card v-for="appointment in appointments" :key="appointment.id" class="mb-6">
                             <CardHeader>
                                 <div class="flex justify-between">
