@@ -150,7 +150,7 @@ const submitAvatar = () => {
                 </form>
             </div>
 
-            <DeleteUser />
+<!--            <DeleteUser />-->
         </SettingsLayout>
     </AppLayout>
 </template>

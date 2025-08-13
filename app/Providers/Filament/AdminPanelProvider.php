@@ -38,8 +38,8 @@ class AdminPanelProvider extends PanelProvider
                 'primary' => Color::Indigo,
             ])
             ->defaultThemeMode(ThemeMode::Dark)
-            ->favicon(asset('images/ProVet.png'))
-            ->brandLogo(asset('images/ProVet.png'))
+            ->favicon(asset('images/ProVetUpdated.png'))
+            ->brandLogo(asset('images/ProVetUpdated.png'))
             ->brandLogoHeight('3rem')
             ->font('Inter', provider: GoogleFontProvider::class)
             ->defaultThemeMode(ThemeMode::Dark)

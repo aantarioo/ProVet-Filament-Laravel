@@ -10,8 +10,10 @@ interface Props {
 }
 
 defineProps<Props>();
+
+const Logo = '/images/ProVetUpdated.png';
 </script>
 
 <template>
-    <img src="images/ProVet.png">
+    <img :src="Logo">
 </template>
