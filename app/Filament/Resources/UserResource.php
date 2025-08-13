@@ -45,6 +45,7 @@ class UserResource extends Resource
                 Tables\Columns\ImageColumn::make('avatar')
                     ->circular()
                     ->disk('public')
+                    ->size(70)
                     ->getStateUsing(function (User $record) {
                         if ($record->avatar)
                         {

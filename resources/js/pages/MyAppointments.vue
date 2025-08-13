@@ -251,7 +251,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
                                                 <DialogFooter class="gap-2">
                                                     <DialogClose as-child>
-                                                        <Button variant="secondary" @click="closeModal"> Cancel </Button>
+                                                        <Button variant="secondary"> Cancel </Button>
                                                     </DialogClose>
                                                         <Button type="submit" variant="default" :disabled="form.processing"> Confirm </Button>
                                                 </DialogFooter>
