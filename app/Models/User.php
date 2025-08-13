@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -13,7 +14,7 @@ use Filament\Panel;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable implements FilamentUser, HasAvatar
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, HasRoles, Notifiable;
@@ -26,6 +27,7 @@ class User extends Authenticatable implements FilamentUser
     protected $fillable = [
         'name',
         'email',
+        'avatar',
         'password',
     ];
 
@@ -52,14 +54,19 @@ class User extends Authenticatable implements FilamentUser
         ];
     }
 
-    public function appointment(): HasMany
+    public function getFilamentAvatarUrl(): ?string
     {
-        return $this->hasMany(Appointment::class);
+        return asset('storage/' . $this->avatar);
     }
     public function canAccessPanel(Panel $panel): bool
     {
           $user = Auth::user();
           return $user->hasAnyRole(['super_admin', 'doctor']);
-//        return str_ends_with($this->email, '@superadmin.com');
+//        return str_ends_with($this->email, '@gmail.com');
+    }
+
+    public function appointment(): HasMany
+    {
+        return $this->hasMany(Appointment::class);
     }
 }

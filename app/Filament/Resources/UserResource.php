@@ -42,7 +42,19 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')->icon('heroicon-m-user')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('email')->icon('heroicon-m-envelope')->searchable(),
-                Tables\Columns\ImageColumn::make('avatar')->circular()->defaultImageUrl(url('images/ProVet.png')),
+                Tables\Columns\ImageColumn::make('avatar')
+                    ->circular()
+                    ->disk('public')
+                    ->getStateUsing(function (User $record) {
+                        if ($record->avatar)
+                        {
+                            return asset('storage/' . $record->avatar);
+                        }
+                        else
+                        {
+                            return asset('images/ProVet.png');
+                        }
+                    }),
                 Tables\Columns\TagsColumn::make('roles.name')->label('Roles'),
             ])
             ->filters([

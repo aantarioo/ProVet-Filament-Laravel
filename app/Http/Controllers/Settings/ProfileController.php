@@ -8,6 +8,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -21,6 +22,7 @@ class ProfileController extends Controller
         return Inertia::render('settings/Profile', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => $request->session()->get('status'),
+            'userAvatar' => auth()->user()->avatar,
         ]);
     }
 
@@ -38,6 +40,28 @@ class ProfileController extends Controller
         $request->user()->save();
 
         return to_route('profile.edit');
+    }
+
+    public function updateAvatar(Request $request)
+    {
+        $request->validate([
+           'avatar' => 'required|image|max:4096'
+        ]);
+
+        $user = auth()->user();
+
+        if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
+            Storage::disk('public')->delete($user->avatar);
+        }
+
+        $extension = $request->file('avatar')->getClientOriginalName();
+        $filename = 'user_' . $user->id . '.' . $extension;
+
+        $path = $request->file('avatar')->storeAs('avatars', $filename, 'public');
+
+        $user->update([
+            'avatar' => $path
+        ]);
     }
 
     /**
