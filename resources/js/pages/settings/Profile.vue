@@ -12,6 +12,10 @@ import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { type BreadcrumbItem, type User } from '@/types';
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 
+import { Toaster } from '@/components/ui/sonner'
+import { toast } from "vue-sonner"
+import 'vue-sonner/style.css'
+
 interface Props {
     mustVerifyEmail: boolean;
     status?: string;
@@ -36,7 +40,7 @@ const form = useForm({
 });
 
 const formAvatar = useForm({
-    avatar: '',
+    avatar: user.avatar,
 
 });
 
@@ -49,6 +53,8 @@ const submit = () => {
 const submitAvatar = () => {
     formAvatar.post(route('profile.updateAvatar'), {
         preserveScroll: true,
+        onSuccess: () => { toast.success('Avatar has been updated') },
+        onError: () => { toast.error('Error') },
     })
 }
 </script>
@@ -56,6 +62,8 @@ const submitAvatar = () => {
 <template>
     <AppLayout :breadcrumbs="breadcrumbItems">
         <Head title="Profile settings" />
+
+        <Toaster />
 
         <SettingsLayout>
             <div class="flex flex-col space-y-6">
@@ -123,18 +131,28 @@ const submitAvatar = () => {
                         <p v-if="formAvatar.recentlySuccessful" class="ml-5 text-sm text-green-400 dark:text-green-300">
                             Avatar has been updated
                         </p>
+                        <InputError class="ml-5"  :message="formAvatar.errors.avatar" />
                         </div>
+                        <div class="flex">
+                            <div class="w-full">
                         <Avatar class="mt-2 h-[150px] w-[150px]">
                             <AvatarImage :src="userAvatar && `/storage/${userAvatar}`" />
                         </Avatar>
+                             </div>
 <!--                        <img :src="user.avatar && `/storage/${user.avatar}`" class="h-[150px] rounded-full mt-2">-->
-                        <Input type="file" id="avatar" class="mt-2 block w-full" @change="e => formAvatar.avatar = e.target.files[0]" required autocomplete="avatar"  />
-                        <InputError class="mt-2" :message="form.errors.name" />
+                            <div class="text-left">
+                                <p>If you want to change the avatar for your account, you can do it here</p>
+                                <p class="text-sm text-muted-foreground">Maximum file size: 4 MB</p>
+                            </div>
+                        </div>
+                        <Input type="file" accept="image/png, image/jpeg, image/jpg" id="avatar" class="mt-2  w-full" @change="e => formAvatar.avatar = e.target.files[0]" required autocomplete="avatar"  />
                     </div>
 
 
                     <div class="flex items-center gap-4">
-                        <Button :disabled="formAvatar.processing" type="submit">Save</Button>
+                        <Button
+                            :disabled="formAvatar.processing"
+                            type="submit">Update Avatar</Button>
 
                         <Transition
                             enter-active-class="transition ease-in-out"

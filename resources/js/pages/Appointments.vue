@@ -21,9 +21,7 @@ import { cn } from '@/lib/utils';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
-import { PawPrint, Weight, Heart, Cross, Check } from "lucide-vue-next"
-
-import { Stepper, StepperDescription, StepperIndicator, StepperItem, StepperSeparator, StepperTitle, StepperTrigger } from "@/components/ui/stepper"
+import { PawPrint, Weight, Heart, Cross, Check, Cat } from "lucide-vue-next"
 
 const form = useForm({
     description: '',
@@ -185,33 +183,8 @@ const breadcrumbs: BreadcrumbItem[] = [
                         </Card>
                     </div>
 
-                    <div class="mt-6 flex justify-center">
-                        <Stepper class="gap-10">
-                            <StepperItem
-                                v-for="item in steps"
-                                :key="item.step"
-                                class="basis-1/5"
-                                :step="item.step"
-                            >
-                                <StepperTrigger>
-                                    <StepperIndicator>
-                                        <component :is="item.icon" class="w-4 h-4" />
-                                    </StepperIndicator>
-                                    <div class="flex flex-col">
-                                        <StepperTitle>
-                                            {{ item.title }}
-                                        </StepperTitle>
-                                        <StepperDescription>
-                                            {{ item.description }}
-                                        </StepperDescription>
-                                    </div>
-                                </StepperTrigger>
-                                <StepperSeparator
-                                    v-if="item.step !== steps[steps.length - 1].step"
-                                    class="w-full h-px"
-                                />
-                            </StepperItem>
-                        </Stepper>
+                    <div class="mt-20 flex justify-center">
+                        <Cat size="200" class="flex aspect-square size-10 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground "/>
                     </div>
                 </div>
             </div>

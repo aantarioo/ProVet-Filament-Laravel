@@ -79,7 +79,7 @@ const rightNavItems: NavItem[] = [
         <div class="border-b border-sidebar-border/80">
             <div class="mx-auto flex h-16 items-center px-4 md:max-w-7xl">
                 <!-- Mobile Menu -->
-                <div class="lg:hidden">
+                <div class="lg:hidden sticky">
                     <Sheet>
                         <SheetTrigger :as-child="true">
                             <Button variant="ghost" size="icon" class="mr-2 h-9 w-9">
@@ -127,7 +127,7 @@ const rightNavItems: NavItem[] = [
                 </Link>
 
                 <!-- Desktop Menu -->
-                <div class="hidden h-full lg:flex lg:flex-1">
+                <div class="hidden h-full lg:flex lg:flex-1 sticky">
                     <NavigationMenu class="ml-10 flex h-full items-stretch">
                         <NavigationMenuList class="flex h-full items-stretch space-x-2">
                             <NavigationMenuItem v-for="(item, index) in mainNavItems" :key="index" class="relative flex h-full items-center">
@@ -147,7 +147,7 @@ const rightNavItems: NavItem[] = [
                     </NavigationMenu>
                 </div>
 
-                <div class="ml-auto flex items-center space-x-2">
+                <div class="ml-auto flex items-center space-x-2 ">
                     <div class="relative flex items-center space-x-1">
 
 

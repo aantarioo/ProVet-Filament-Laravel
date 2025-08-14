@@ -48,7 +48,7 @@ defineProps({ owners: Array })
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
             <div class="grid auto-rows-min gap-4 md:grid-cols-2">
-                <div class="relative aspect-video overflow-hidden rounded-xl border-sidebar-border/70 dark:border-sidebar-border">
+                <div class="relative overflow-hidden rounded-xl border-sidebar-border/70 dark:border-sidebar-border">
                     <div class="p-3">
                         <h1 class="mb-6 text-3xl font-medium">ProVet</h1>
                         <p class="text-xl text-muted-foreground">
@@ -105,14 +105,14 @@ defineProps({ owners: Array })
 <!--                        </div>-->
 <!--                    </div>-->
 <!--                </div>-->
-                    <div class="mt-6 w-full">
-                        <AspectRatio :ratio="16 / 9">
-                            <img
-                                :src=" `images/PhotoAbout1.jpg` "
-                                alt="ProVet 1"
-                                class="rounded-xl object-cover w-full h-full"
-                            >
-                        </AspectRatio>
+                    <div class="mt-6">
+<!--                        <AspectRatio :ratio="16 / 9">-->
+<!--                            <img-->
+<!--                                :src=" `images/PhotoAbout1.jpg` "-->
+<!--                                alt="ProVet 1"-->
+<!--                                class="rounded-xl object-cover w-full h-full"-->
+<!--                            >-->
+<!--                        </AspectRatio>-->
                     </div>
             </div>
         </div>
