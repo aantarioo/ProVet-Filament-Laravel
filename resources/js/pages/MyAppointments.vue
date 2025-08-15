@@ -99,8 +99,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 <template>
     <Head title="My Appointments" />
 
-    <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+    <AppLayout :breadcrumbs="breadcrumbs" >
+        <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto overflow-y-hidden rounded-xl p-4">
 <!--            <div class="grid auto-rows-min gap-4 md:grid-cols-2">-->
 <!--                <div class="relative aspect-video overflow-hidden rounded-xl border-sidebar-border/70 dark:border-sidebar-border">-->
 <!--                    <div class="p-3">-->
@@ -133,7 +133,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
             <div class="relative min-h-[100vh] flex-1 rounded-xl border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
                 <div>
-                    <div class="text-center mt-6">
+                    <div class="text-center p-3">
                     <h1 class="mb-2 text-3xl font-medium">My Appointments</h1>
                         <p class="text-xl text-muted-foreground">
                             Here you can view your appointments.
@@ -285,7 +285,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                             </CardFooter>
                         </Card>
                     </div>
-                    <div class="mt-6">
+                    <div class="p-3">
                         <Accordion type="single" class="text-center ml-2" collapsible>
                             <AccordionItem v-for="item in accordionItems" :key="item.value" :value="item.value">
                                 <AccordionTrigger>{{ item.title }}</AccordionTrigger>
@@ -295,7 +295,6 @@ const breadcrumbs: BreadcrumbItem[] = [
                             </AccordionItem>
                         </Accordion>
                     </div>
-                    <ContactInformation />
                 </div>
             </div>
         </div>

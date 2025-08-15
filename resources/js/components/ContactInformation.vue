@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <div class="mt-6 flex justify-end">
+    <div class="p-3 flex justify-end">
         <div>
             <h1 class="flex justify-end">📍 Contact Information</h1>
             <div class="ml-12 flex justify-end">

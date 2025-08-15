@@ -12,6 +12,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
+import { Toaster } from '@/components/ui/sonner'
+import { toast } from "vue-sonner"
+import 'vue-sonner/style.css'
+
 import type { DateValue } from '@internationalized/date';
 import { DateFormatter, getLocalTimeZone } from '@internationalized/date';
 import { CalendarIcon } from 'lucide-vue-next';
@@ -20,8 +24,6 @@ import { ref, watch } from 'vue';
 import { cn } from '@/lib/utils';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-
-import { PawPrint, Weight, Heart, Cross, Check, Cat } from "lucide-vue-next"
 
 import ContactInformation from '@/components/ContactInformation.vue';
 
@@ -34,6 +36,11 @@ const form = useForm({
 const submit = () => {
     form.post(route('appointments'), {
         onFinish: () => form.reset('description', 'name_of_patient', 'date_of_appointment'),
+        onError: () => { toast.error('Error', {
+            description: form.errors.limit,
+            richColors: true,
+            position: 'top-right',
+        }) },
     });
 };
 
@@ -47,33 +54,6 @@ watch(value, (newVal) => {
     form.date_of_appointment = newVal ? newVal.toString() : '';
 });
 
-const steps = [{
-    step: 1,
-    title: "Pet Details",
-    description: "Name & breed",
-    icon: PawPrint,
-}, {
-    step: 2,
-    title: "Age & Weight",
-    description: "Set your preferred shipping method",
-    icon: Weight,
-}, {
-    step: 3,
-    title: "Health Condition",
-    description: "Describe current symptoms or issues",
-    icon: Heart,
-}, {
-    step: 4,
-    title: "Medical History",
-    description: "Add past visits or known conditions",
-    icon: Cross,
-}, {
-    step: 5,
-    title: "Create Appointment",
-    description: "Create an appointment and wait",
-    icon: Check,
-}, ]
-
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Create Appointment',
@@ -84,6 +64,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 <template>
     <Head title="Create Appointment" />
+
+    <Toaster />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
@@ -119,12 +101,12 @@ const breadcrumbs: BreadcrumbItem[] = [
 
             <div class="relative min-h-[100vh] flex-1 rounded-xl border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
                 <div>
-                    <div class="text-center mt-6">
+                    <div class="text-center p-3">
                         <h1 class="mb-2 text-3xl font-medium">Create Appointment</h1>
                         <p class="text-xl text-muted-foreground">Here you can create an appointment.</p>
                     </div>
 
-                    <div class="mt-6">
+                    <div class="p-3">
                         <Card class="w-full">
                             <form @submit.prevent="submit">
                             <CardHeader class="mb-2">
@@ -183,7 +165,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                             </CardFooter>
                             </form>
                         </Card>
-                        <p class="ml-6.5 mt-0.5 text-sm text-muted-foreground">Please bring your pet's passport and previous medical records to your appointment.</p>
+                        <p class="p-3 text-sm text-muted-foreground">Please bring your pet's passport and previous medical records to your appointment.</p>
                     </div>
 
                     <ContactInformation />

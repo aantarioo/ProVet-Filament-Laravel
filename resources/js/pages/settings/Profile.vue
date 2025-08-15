@@ -57,13 +57,11 @@ const submitAvatar = () => {
             description: 'Avatar has been updated',
             richColors: true,
             position: 'top-right',
-            closeButton: true,
         }) },
         onError: () => { toast.error('Error', {
             description: formAvatar.errors.avatar,
             richColors: true,
             position: 'top-right',
-            closeButton: true,
         }) },
     })
 }

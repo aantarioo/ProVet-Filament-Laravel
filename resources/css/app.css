@@ -104,7 +104,7 @@
 }
 
 :root {
-    --background: hsl(330, 0%, 95.1%);
+    --background: oklch(1 0 0);
     --foreground: hsl(30, 0%, 18.4%);
     --card: hsl(334.3, 0%, 88.8%);
     --card-foreground: hsl(30, 0%, 18.4%);

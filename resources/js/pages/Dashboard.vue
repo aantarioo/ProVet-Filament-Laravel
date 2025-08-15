@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Separator } from '@/components/ui/separator';
 import { AspectRatio } from "@/components/ui/aspect-ratio"
+import * as url from 'node:url';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -105,14 +106,23 @@ defineProps({ owners: Array })
 <!--                        </div>-->
 <!--                    </div>-->
 <!--                </div>-->
-                    <div class="mt-6">
-<!--                        <AspectRatio :ratio="16 / 9">-->
-<!--                            <img-->
-<!--                                :src=" `images/PhotoAbout1.jpg` "-->
-<!--                                alt="ProVet 1"-->
-<!--                                class="rounded-xl object-cover w-full h-full"-->
-<!--                            >-->
-<!--                        </AspectRatio>-->
+                    <div class="p-3">
+                        <img src="/images/ProVetUpdated.png" class="flex m-auto h-[200px] pointer-events-none">
+                    </div>
+                    <div class=" p-3">
+                        <h1>© 2025 ProVet. All rights reserved.</h1>
+                        <p class="text-muted-foreground">ProVet Veterinary Clinic, LLC</p>
+                        <p class="text-muted-foreground">245 Market Street, San Francisco, CA 94105</p>
+                        <p class="text-muted-foreground">+1 (415) 555-0134</p>
+                        <p class="text-muted-foreground mt-3 mb-3">This website is for informational purposes only and does not constitute medical advice for your pet. All medical content is provided for general educational purposes and should not be used as a substitute for professional veterinary consultation, diagnosis, or treatment. Always seek the advice of a licensed veterinarian for any questions you may have regarding your pet’s health.</p>
+                        <div class="flex justify-end">
+                        <Link>
+                           <Button variant="link">Privacy Policy</Button>
+                        </Link>
+                        <Link>
+                           <Button variant="link">Terms of Service</Button>
+                        </Link>
+                        </div>
                     </div>
             </div>
         </div>
