@@ -23,6 +23,8 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 
 import { PawPrint, Weight, Heart, Cross, Check, Cat } from "lucide-vue-next"
 
+import ContactInformation from '@/components/ContactInformation.vue';
+
 const form = useForm({
     description: '',
     name_of_patient: '',
@@ -181,11 +183,10 @@ const breadcrumbs: BreadcrumbItem[] = [
                             </CardFooter>
                             </form>
                         </Card>
+                        <p class="ml-6.5 mt-0.5 text-sm text-muted-foreground">Please bring your pet's passport and previous medical records to your appointment.</p>
                     </div>
 
-                    <div class="mt-20 flex justify-center">
-                        <Cat size="200" class="flex aspect-square size-10 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground "/>
-                    </div>
+                    <ContactInformation />
                 </div>
             </div>
         </div>

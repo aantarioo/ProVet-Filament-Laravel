@@ -53,8 +53,18 @@ const submit = () => {
 const submitAvatar = () => {
     formAvatar.post(route('profile.updateAvatar'), {
         preserveScroll: true,
-        onSuccess: () => { toast.success('Avatar has been updated') },
-        onError: () => { toast.error('Error') },
+        onSuccess: () => { toast.success('Success', {
+            description: 'Avatar has been updated',
+            richColors: true,
+            position: 'top-right',
+            closeButton: true,
+        }) },
+        onError: () => { toast.error('Error', {
+            description: formAvatar.errors.avatar,
+            richColors: true,
+            position: 'top-right',
+            closeButton: true,
+        }) },
     })
 }
 </script>

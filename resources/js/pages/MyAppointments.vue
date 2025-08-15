@@ -32,6 +32,8 @@ import { Textarea } from '@/components/ui/textarea';
 
 import { Check, Clock, Speech } from "lucide-vue-next"
 
+import ContactInformation from '@/components/ContactInformation.vue';
+
 defineProps({ appointments: Array })
 
 const form = useForm({
@@ -85,8 +87,6 @@ const accordionItems = [
     },
 ];
 
-const defaultValue = 'item-1';
-
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'My Appointments',
@@ -131,7 +131,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 <!--                </div>-->
 <!--            </div>-->
 
-            <div class="relative min-h-[100vh] flex-1 rounded-xl  border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
+            <div class="relative min-h-[100vh] flex-1 rounded-xl border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
                 <div>
                     <div class="text-center mt-6">
                     <h1 class="mb-2 text-3xl font-medium">My Appointments</h1>
@@ -286,7 +286,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                         </Card>
                     </div>
                     <div class="mt-6">
-                        <Accordion type="single" class="text-center ml-2" collapsible :default-value="defaultValue">
+                        <Accordion type="single" class="text-center ml-2" collapsible>
                             <AccordionItem v-for="item in accordionItems" :key="item.value" :value="item.value">
                                 <AccordionTrigger>{{ item.title }}</AccordionTrigger>
                                 <AccordionContent>
@@ -295,6 +295,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                             </AccordionItem>
                         </Accordion>
                     </div>
+                    <ContactInformation />
                 </div>
             </div>
         </div>
