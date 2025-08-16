@@ -22,7 +22,7 @@ class TreatmentsRelationManager extends RelationManager
                     ->required()
                     ->maxLength(255)
                     ->columnSpan('full'),
-                Forms\Components\Textarea::make('notes')
+                Forms\Components\RichEditor::make('notes')
                     ->maxLength(65535)
                     ->columnSpan('full'),
                 Forms\Components\TextInput::make('price')

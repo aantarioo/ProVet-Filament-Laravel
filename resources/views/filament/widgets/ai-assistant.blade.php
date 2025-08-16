@@ -1,6 +1,6 @@
 <x-filament-widgets::widget>
     <x-filament::section>
-        <h2 class="text-lg font-bold mb-2">🤖 AI Assistant</h2>
+        <h2 class="text-lg font-bold mb-2">Using AI directly in the panel</h2>
 
         <div class="space-y-4">
             <x-filament::input.wrapper>

@@ -20,7 +20,6 @@ class PatientResource extends Resource
     protected static ?string $model = Patient::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
-
     public static function form(Form $form): Form
     {
 
@@ -117,6 +116,12 @@ class PatientResource extends Resource
             'create' => Pages\CreatePatient::route('/create'),
             'edit' => Pages\EditPatient::route('/{record}/edit'),
         ];
+    }
+
+    protected static ?string $navigationBadgeTooltip = 'The number of patients';
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
     }
 
     public static function canViewAny(): bool
