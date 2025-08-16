@@ -8,7 +8,6 @@ import { Textarea } from '@/components/ui/textarea';
 import InputError from '@/components/InputError.vue';
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
@@ -69,36 +68,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-            <!--            <div class="grid auto-rows-min gap-4 md:grid-cols-2">-->
-            <!--                <div class="relative aspect-video overflow-hidden rounded-xl border-sidebar-border/70 dark:border-sidebar-border">-->
-            <!--                    <div class="p-3">-->
-            <!--                        <h1 class="mb-6 text-3xl font-medium">ProVet</h1>-->
-            <!--                        <p class="text-xl text-muted-foreground">-->
-            <!--                            ProVet is a modern veterinary clinic where compassionate care meets the latest diagnostic and treatment technologies. We-->
-            <!--                            understand that every pet is unique, so we tailor our approach to each patient. Our team of experienced veterinarians is-->
-            <!--                            ready to help in any situation – from preventive check-ups and vaccinations to complex surgeries and rehabilitation. At-->
-            <!--                            ProVet, we don’t just treat pets – we care about their quality of life.-->
-            <!--                        </p>-->
-            <!--                        <div class="mt-9 flex justify-between">-->
-            <!--                            <Button variant="outline">Make an appointment</Button>-->
-            <!--                            <Button variant="link">Contact us</Button>-->
-            <!--                        </div>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--                <div class="relative aspect-video overflow-hidden rounded-xl border-sidebar-border/70 dark:border-sidebar-border bg-neutral-900">-->
-            <!--                    <div class="p-3">-->
-            <!--                        <Accordion type="single" class="w-full" collapsible :default-value="defaultValue">-->
-            <!--                            <AccordionItem v-for="item in accordionItems" :key="item.value" :value="item.value">-->
-            <!--                                <AccordionTrigger>{{ item.title }}</AccordionTrigger>-->
-            <!--                                <AccordionContent>-->
-            <!--                                    {{ item.content }}-->
-            <!--                                </AccordionContent>-->
-            <!--                            </AccordionItem>-->
-            <!--                        </Accordion>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </div>-->
-
             <div class="relative min-h-[100vh] flex-1 rounded-xl border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
                 <div>
                     <div class="text-center p-3">

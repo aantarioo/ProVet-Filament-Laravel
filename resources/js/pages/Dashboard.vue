@@ -4,17 +4,10 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/vue3';
 
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Separator } from '@/components/ui/separator';
-import { AspectRatio } from "@/components/ui/aspect-ratio"
-import * as url from 'node:url';
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Home',
-        href: '/',
-    },
-];
 
 const defaultValue = 'item-1';
 
@@ -37,6 +30,13 @@ const accordionItems = [
         title: 'Surgery & Rehabilitation',
         content:
             'From minor procedures to complex surgeries, we ensure safety, minimal stress, and a smooth recovery for your pet under our attentive care.',
+    },
+];
+
+const breadcrumbs: BreadcrumbItem[] = [
+    {
+        title: 'Home',
+        href: '/',
     },
 ];
 
@@ -81,33 +81,8 @@ defineProps({ owners: Array })
             </div>
             <Separator orientation="horizontal" />
             <div class="relative min-h-[100vh] flex-1 rounded-xl  border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
-<!--                <div>-->
-<!--                    <div class="text-center">-->
-<!--                    <h1 class="mb-6 text-3xl font-medium">Our team of doctors</h1>-->
-<!--                        <p class="text-xl text-muted-foreground">-->
-<!--                            They are the ones who will solve any of your problems.-->
-<!--                        </p>-->
-<!--                    </div>-->
-<!--                    <div class="grid auto-rows-min gap-4 md:grid-cols-2 mt-6">-->
-<!--                        <div class="relative aspect-video overflow-hidden rounded-xl  border-sidebar-border/70 dark:border-sidebar-border" v-for="owner in owners" :key="owner.id">-->
-<!--                            <div class="text-center mt-3">-->
-<!--                                <Avatar class="flex m-auto h-[50px] w-[50px]">-->
-<!--                                    <AvatarImage src="https://github.com/unovue.png" alt="@unovue" />-->
-<!--                                    <AvatarFallback>CN</AvatarFallback>-->
-<!--                                </Avatar>-->
-<!--                                <h1 class="mt-3 text-xl font-medium">{{ owner.name }}</h1>-->
-<!--                                <p class="text-sm text-muted-foreground">-->
-<!--                                    {{ owner.email }}.-->
-<!--                                </p>-->
-<!--                                <p class="text-sm text-muted-foreground">-->
-<!--                                    {{ owner.phone }}.-->
-<!--                                </p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
                     <div class="p-3">
-                        <img src="/images/ProVetUpdated.png" class="flex m-auto h-[200px] pointer-events-none">
+                     <img src="/images/ProVetUpdated.png" class="flex m-auto h-[200px] pointer-events-none">
                     </div>
                     <div class=" p-3">
                         <h1>© 2025 ProVet. All rights reserved.</h1>
